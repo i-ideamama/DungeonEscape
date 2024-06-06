@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmipnt2uu0fhl"]
+
+[ext_resource type="Texture2D" uid="uid://8lnn35b64m0d" path="res://Assets/dot.png" id="1_xruo5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fanc3"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_xruo5")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gqgas"]
+material = SubResource("StandardMaterial3D_fanc3")
+
+[node name="Dot" type="MeshInstance3D"]
+mesh = SubResource("PlaneMesh_gqgas")
