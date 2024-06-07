@@ -35,25 +35,15 @@ func _unhandled_input(event: InputEvent) -> void:
 func instance_dot(i, pos, normal):
 	var transform = Transform3D()
 	transform = transform.translated(pos)
-	
 	var other_line = Vector3(0,1,(-normal.y/normal.z))
-	
 	if(normal.z!=0):
-		
 		transform.basis = Basis().looking_at(other_line, normal)
-		
 	elif(normal.y!=0):
 		other_line = Vector3(1,(-normal.x/normal.y),0)
 		transform.basis = Basis().looking_at(other_line, normal)
-	
 	elif(normal.x!=0):
 		other_line = Vector3((-normal.z/normal.x),0,1)
 		transform.basis = Basis().looking_at(other_line, normal)
-		
-	#var old_normal = normal
-	#normal = normal.rotated(old_normal, PI/2)
-	#transform.basis = Basis().looking_at(normal , Vector3.UP)
-	
 	mm.set_instance_transform(i, transform)
 
 func _physics_process(delta) -> void:
