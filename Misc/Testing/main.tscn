@@ -1,11 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://dtyv25p8yxcmi"]
 
-[ext_resource type="Script" path="res://Misc/Testing/Main.gd" id="1_rfjpj"]
+[ext_resource type="Script" path="res://Misc/Testing/2D_Dungeon.gd" id="1_rfjpj"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_rfjpj")
 
-[node name="Rooms" type="Node" parent="."]
-
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.15, 0.15)
+
+[node name="Rooms" type="Node" parent="."]

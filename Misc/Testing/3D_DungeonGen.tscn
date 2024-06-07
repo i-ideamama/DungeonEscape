@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ku6l02xddhxe"]
+
+[ext_resource type="Script" path="res://Misc/Testing/3D_DungeonGen.gd" id="1_38kov"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6jpgu"]
+
+[node name="Main" type="Node3D"]
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+script = ExtResource("1_38kov")
+mat = SubResource("StandardMaterial3D_6jpgu")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -240.216, 242.28, -460.573)
