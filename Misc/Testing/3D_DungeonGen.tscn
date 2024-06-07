@@ -1,14 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://ku6l02xddhxe"]
+[gd_scene load_steps=4 format=3 uid="uid://ku6l02xddhxe"]
 
 [ext_resource type="Script" path="res://Misc/Testing/3D_DungeonGen.gd" id="1_38kov"]
+[ext_resource type="PackedScene" uid="uid://rlkm6jmfrdow" path="res://Scenes/Player.tscn" id="2_qos76"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6jpgu"]
+albedo_color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Node3D"]
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
 script = ExtResource("1_38kov")
 mat = SubResource("StandardMaterial3D_6jpgu")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -240.216, 242.28, -460.573)
+[node name="Player" parent="." instance=ExtResource("2_qos76")]
