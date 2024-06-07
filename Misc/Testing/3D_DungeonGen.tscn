@@ -1,12 +1,31 @@
-[gd_scene load_steps=4 format=3 uid="uid://ku6l02xddhxe"]
+[gd_scene load_steps=7 format=3 uid="uid://ku6l02xddhxe"]
 
 [ext_resource type="Script" path="res://Misc/Testing/3D_DungeonGen.gd" id="1_38kov"]
 [ext_resource type="PackedScene" uid="uid://rlkm6jmfrdow" path="res://Scenes/Player.tscn" id="2_qos76"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5suwy"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_pikg1"]
+sky_material = SubResource("ProceduralSkyMaterial_5suwy")
+
+[sub_resource type="Environment" id="Environment_ruogn"]
+background_mode = 2
+sky = SubResource("Sky_pikg1")
+tonemap_mode = 2
+glow_enabled = true
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6jpgu"]
-albedo_color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ruogn")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 use_collision = true

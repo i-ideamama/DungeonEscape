@@ -4,15 +4,11 @@ extends CSGCombiner3D
 var room_count
 var min_rooms = 5
 var max_rooms = 10
-
 var min_room_size = 8
 var max_room_size = 15
-
 var room_pos_list = []
 var room_pos_list_cpy = []
-
 var pos_range = Vector2(-50,50)
-
 var mesh_resolution = 5
 
 
@@ -23,9 +19,11 @@ func setgenerate(_val:bool) -> void:
 	randomize()
 	do_the_gen()
 
+@onready var player_scene = preload("res://Scenes/Player.tscn")
+var player
+
 @export var clear : bool = false : set = setclear
 
-@onready var player = get_node("Player")
 
 func setclear(_val:bool) -> void:
 	for c in get_children():
@@ -35,7 +33,9 @@ func setclear(_val:bool) -> void:
 func _ready():
 	randomize()
 	do_the_gen()
-	#player.position = room_pos_list[0]
+	player = player_scene.instantiate()
+	get_parent().add_child(player)
+	player.position = Vector3(room_pos_list[0].x+1,1,room_pos_list[0].z)
 
 func do_the_gen():
 	get_room_positions()

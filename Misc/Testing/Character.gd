@@ -10,7 +10,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var neck := $Neck
 @onready var camera := $Neck/Camera3D
 @onready var ray := $Neck/Camera3D/RayCast3D
-@onready var mmi = get_parent().get_node("MultiMeshInstance3D")
+@onready var mmi = $MultiMeshInstance3D
 @onready var mm = mmi.multimesh
 
 var max_dots = 10000
