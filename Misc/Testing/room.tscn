@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://t41pl8ry0u3g"]
+
+[ext_resource type="Script" path="res://Misc/Testing/Room.gd" id="1_j1cn0"]
+
+[node name="Room" type="RigidBody2D"]
+lock_rotation = true
+script = ExtResource("1_j1cn0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

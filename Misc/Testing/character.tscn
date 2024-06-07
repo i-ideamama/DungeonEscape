@@ -23,6 +23,8 @@ transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 albedo_texture = ExtResource("2_g3hyb")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_rc1ri"]
 material = SubResource("StandardMaterial3D_1522t")
