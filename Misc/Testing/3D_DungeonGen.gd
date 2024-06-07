@@ -34,8 +34,8 @@ func _ready():
 	randomize()
 	do_the_gen()
 	player = player_scene.instantiate()
-	get_parent().add_child(player)
-	player.position = Vector3(room_pos_list[0].x+1,1,room_pos_list[0].z)
+	get_parent().add_child.call_deferred(player)
+	player.position = Vector3(room_pos_list[0].x+1 ,1,room_pos_list[0].z)
 
 func do_the_gen():
 	get_room_positions()
