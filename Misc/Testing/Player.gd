@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 
-const SPEED = 5.0
+const SPEED = 10.0
 const JUMP_VELOCITY = 4.5
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -50,9 +50,13 @@ func instance_dot(i, pos, normal):
 		transform.basis = Basis().looking_at(other_line, normal)
 	mm.set_instance_transform(i, transform)
 
+func _process(_delta):
+	if Input.is_action_just_pressed("ui_text_backspace"):
+		$Neck/Camera3D.apply_shake()
+
 func _physics_process(delta) -> void:
 	
-	if((ray.get_collider()!=null) and (last_dot_id<max_dots)):
+	if((ray.get_collider()!=null) and (last_dot_id<max_dots) and ("dungeon" in ray.get_collider().name)):
 		instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal())
 		last_dot_id+=1
 

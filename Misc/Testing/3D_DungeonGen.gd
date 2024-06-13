@@ -2,8 +2,8 @@
 extends CSGCombiner3D
 
 var room_count
-var min_rooms = 5
-var max_rooms = 10
+var min_rooms = 2
+var max_rooms = 4
 var min_room_size = 8
 var max_room_size = 15
 var room_pos_list = []
@@ -21,6 +21,9 @@ func setgenerate(_val:bool) -> void:
 
 @onready var player_scene = preload("res://Scenes/Player.tscn")
 var player
+
+@onready var enemy_scene = preload("res://Scenes/enemy.tscn")
+var enemy
 
 @onready var trap_scene = preload("res://Scenes/Trap.tscn")
 var trap
@@ -44,6 +47,10 @@ func _ready():
 	get_parent().add_child.call_deferred(trap)
 	trap.position = Vector3(room_pos_list[0].x ,-1.5,room_pos_list[0].z)
 	
+	enemy = enemy_scene.instantiate()
+	get_parent().add_child.call_deferred(enemy)
+	enemy.position = Vector3(room_pos_list[1].x ,-0.8,room_pos_list[1].z)
+	
 func do_the_gen():
 	get_room_positions()
 	place_rooms()
@@ -66,6 +73,7 @@ func place_rooms():
 	for p in room_pos_list:
 		var mesh = CSGMesh3D.new()
 		mesh.mesh = BoxMesh.new()
+		mesh.name = "dungeon"
 		mesh.scale = Vector3(randi_range(min_room_size, max_room_size), 3, randi_range(min_room_size, max_room_size))
 		mesh.flip_faces = true
 		mesh.mesh.subdivide_width = mesh.scale.x/mesh_resolution

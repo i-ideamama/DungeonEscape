@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdqbjrlakanmo"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sn54c"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7u08m"]
+albedo_color = Color(0.141348, 0.376416, 1, 1)
+emission_enabled = true
+emission = Color(0.141176, 0.376471, 1, 1)
+emission_energy_multiplier = 1.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_xaovw"]
+material = SubResource("StandardMaterial3D_7u08m")
+
+[node name="Checkpoint" type="Area3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_sn54c")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_xaovw")

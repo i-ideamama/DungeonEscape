@@ -32,7 +32,12 @@ import_script/path=""
 _subresources={
 "nodes": {
 "PATH:trap": {
-"generate/physics": true
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:trap/spikes": {
+"generate/physics": true,
+"physics/shape_type": 2
 }
 }
 }
