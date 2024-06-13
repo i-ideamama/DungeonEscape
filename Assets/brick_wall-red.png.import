@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clum58xx20wpu"
-path="res://.godot/imported/crosshair.png-7bed3294e640fe9ca357247b0602b756.ctex"
+uid="uid://cnlbkkhjeoc2h"
+path="res://.godot/imported/brick_wall-red.png-a7abc561abf294a61ba0e1b760058f09.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/crosshair.png"
-dest_files=["res://.godot/imported/crosshair.png-7bed3294e640fe9ca357247b0602b756.ctex"]
+source_file="res://Assets/brick_wall-red.png"
+dest_files=["res://.godot/imported/brick_wall-red.png-a7abc561abf294a61ba0e1b760058f09.ctex"]
 
 [params]
 

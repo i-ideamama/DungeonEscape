@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://ku6l02xddhxe"]
+[gd_scene load_steps=10 format=3 uid="uid://ku6l02xddhxe"]
 
 [ext_resource type="Script" path="res://Misc/Testing/3D_DungeonGen.gd" id="1_38kov"]
-[ext_resource type="PackedScene" uid="uid://rlkm6jmfrdow" path="res://Scenes/Player.tscn" id="2_qos76"]
 [ext_resource type="Texture2D" uid="uid://8lnn35b64m0d" path="res://Assets/dot.png" id="3_scadv"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5suwy"]
@@ -49,10 +48,9 @@ shadow_enabled = true
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
 use_collision = true
+collision_mask = 3
 script = ExtResource("1_38kov")
 mat = SubResource("StandardMaterial3D_6jpgu")
-
-[node name="Player" parent="." instance=ExtResource("2_qos76")]
 
 [node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
 multimesh = SubResource("MultiMesh_5rcmy")

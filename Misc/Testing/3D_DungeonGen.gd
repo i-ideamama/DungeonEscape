@@ -22,6 +22,9 @@ func setgenerate(_val:bool) -> void:
 @onready var player_scene = preload("res://Scenes/Player.tscn")
 var player
 
+@onready var trap_scene = preload("res://Scenes/Trap.tscn")
+var trap
+
 @export var clear : bool = false : set = setclear
 
 
@@ -35,8 +38,12 @@ func _ready():
 	do_the_gen()
 	player = player_scene.instantiate()
 	get_parent().add_child.call_deferred(player)
-	player.position = Vector3(room_pos_list[0].x+1 ,1,room_pos_list[0].z)
-
+	player.position = Vector3(room_pos_list[0].x ,-1,room_pos_list[0].z)
+	
+	trap = trap_scene.instantiate()
+	get_parent().add_child.call_deferred(trap)
+	trap.position = Vector3(room_pos_list[0].x ,-1.5,room_pos_list[0].z)
+	
 func do_the_gen():
 	get_room_positions()
 	place_rooms()

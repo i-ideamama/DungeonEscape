@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://bh3rsrikwwhyx"]
+
+[ext_resource type="Texture2D" uid="uid://cnlbkkhjeoc2h" path="res://Assets/brick_wall-red.png" id="1_u0de1"]
+[ext_resource type="FontFile" uid="uid://c7nwhlkl6ti6v" path="res://Assets/Fonts/bloodlust3d.ttf" id="2_ge75a"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wttti"]
+texture = ExtResource("1_u0de1")
+texture_region_size = Vector2i(160, 160)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_b7ox6"]
+tile_size = Vector2i(160, 160)
+sources/0 = SubResource("TileSetAtlasSource_wttti")
+
+[node name="HomeScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Wall" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_b7ox6")
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 65536, 0, 0, 131072, 0, 0, 196608, 0, 0, 262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 131074, 0, 0, 131073, 0, 0, 131075, 0, 0, 196611, 0, 0, 196610, 0, 0, 196609, 0, 0, 131076, 0, 0, 196612, 0, 0, 196613, 0, 0, 131077, 0, 0, 65541, 0, 0, 65542, 0, 0, 131078, 0, 0, 196614, 0, 0, 196615, 0, 0, 131079, 0, 0, 65543, 0, 0, 196616, 0, 0, 131080, 0, 0, 65544, 0, 0, 65545, 0, 0, 131081, 0, 0, 196617, 0, 0)
+
+[node name="Title" type="RichTextLabel" parent="."]
+offset_left = 160.0
+offset_top = 192.0
+offset_right = 1088.0
+offset_bottom = 416.0
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_ge75a")
+theme_override_font_sizes/normal_font_size = 200
+text = "DUNGEON ESCAPE"
+scroll_active = false
