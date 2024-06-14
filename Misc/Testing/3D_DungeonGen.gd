@@ -9,7 +9,7 @@ var max_room_size = 15
 var room_pos_list = []
 var room_pos_list_cpy = []
 var pos_range = Vector2(-50,50)
-var mesh_resolution = 5
+var mesh_resolution = 8
 
 
 @export var mat : StandardMaterial3D
@@ -21,12 +21,12 @@ func setgenerate(_val:bool) -> void:
 
 @onready var player_scene = preload("res://Scenes/Player.tscn")
 var player
-
 @onready var enemy_scene = preload("res://Scenes/enemy.tscn")
 var enemy
-
 @onready var trap_scene = preload("res://Scenes/Trap.tscn")
 var trap
+@onready var bottom_of_chasm_scene = preload("res://Scenes/BottomOfChasm.tscn")
+var bottom_of_chasm
 
 @export var clear : bool = false : set = setclear
 
@@ -41,12 +41,9 @@ func _ready():
 	do_the_gen()
 	player = player_scene.instantiate()
 	get_parent().add_child.call_deferred(player)
-	player.position = Vector3(room_pos_list[1].x ,-1,room_pos_list[1].z)
+	player.position = Vector3(room_pos_list[0].x ,-1,room_pos_list[0].z)
 	
-	trap = trap_scene.instantiate()
-	
-	get_parent().add_child.call_deferred(trap)
-	trap.position = Vector3(room_pos_list[0].x ,-1.5,room_pos_list[0].z)
+	inst_traps()
 	
 	enemy = enemy_scene.instantiate()
 	get_parent().add_child.call_deferred(enemy)
@@ -56,6 +53,29 @@ func do_the_gen():
 	get_room_positions()
 	place_rooms()
 	get_rooms()
+
+func inst_traps():
+	# place spike traps
+	trap = trap_scene.instantiate()
+	get_parent().add_child.call_deferred(trap)
+	trap.position = Vector3(room_pos_list[0].x ,-1.5,room_pos_list[0].z)
+	
+	# place chasms
+	var chasm = CSGMesh3D.new()
+	var chasm_height = 100
+	var chasm_side = 3
+	chasm.mesh = BoxMesh.new()
+	chasm.name = "chasm"
+	chasm.scale = Vector3(chasm_side, chasm_height, chasm_side)
+	chasm.flip_faces = true
+	chasm.mesh.subdivide_width = chasm.scale.x/mesh_resolution
+	chasm.mesh.subdivide_height= chasm.scale.y/mesh_resolution
+	chasm.mesh.subdivide_depth = chasm.scale.z/mesh_resolution
+	chasm.position = Vector3(room_pos_list[1].x ,(-chasm_height/2)+1,room_pos_list[1].z)
+	add_child(chasm)
+	bottom_of_chasm = bottom_of_chasm_scene.instantiate()
+	get_parent().add_child.call_deferred(bottom_of_chasm)
+	bottom_of_chasm.position = Vector3(chasm.position.x,-chasm_height+2,chasm.position.z)
 
 func get_room_positions():
 	room_count = randi_range(min_rooms, max_rooms)

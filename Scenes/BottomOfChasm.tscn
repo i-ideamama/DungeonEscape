@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://vbgrtkpuoq7n"]
+
+[ext_resource type="Script" path="res://Scripts/BottomOfChasm.gd" id="1_xdpnx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8cw40"]
+size = Vector3(3, 2, 3)
+
+[node name="BottomOfChasm" type="Area3D"]
+script = ExtResource("1_xdpnx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_8cw40")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
