@@ -4,7 +4,6 @@ extends CharacterBody3D
 const SPEED = 10.0
 const JUMP_VELOCITY = 4.5
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var neck := $Neck
@@ -77,10 +76,15 @@ func shoot_lidar_points():
 		set_spray_blastet()
 	
 	for ray in $Neck/Camera3D.get_children():
-		if((ray.get_collider()!=null) and (last_dot_id<max_dots)):
-			if (ray.get_collider() is CSGCombiner3D):
+		var col = ray.get_collider()
+		if((col!=null) and (last_dot_id<max_dots)):
+			if ((col is CSGCombiner3D) or (col is StaticBody3D)):
 				instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal())
 				last_dot_id+=1
+			if (col is StaticBody3D):
+				if(col.get_parent().get_parent().name=="Trap"):
+					col.get_parent().get_parent().make_visible()
+
 
 func set_blaster():
 	for c in $SubViewport/WeaponCamera.get_children():
@@ -108,13 +112,9 @@ func set_spray_blastet():
 
 func _physics_process(delta) -> void:
 	
-
-	
-	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
-	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 

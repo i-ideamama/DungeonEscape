@@ -41,9 +41,10 @@ func _ready():
 	do_the_gen()
 	player = player_scene.instantiate()
 	get_parent().add_child.call_deferred(player)
-	player.position = Vector3(room_pos_list[0].x ,-1,room_pos_list[0].z)
+	player.position = Vector3(room_pos_list[1].x ,-1,room_pos_list[1].z)
 	
 	trap = trap_scene.instantiate()
+	
 	get_parent().add_child.call_deferred(trap)
 	trap.position = Vector3(room_pos_list[0].x ,-1.5,room_pos_list[0].z)
 	

@@ -35,22 +35,27 @@ script = ExtResource("2_himsr")
 
 [node name="ray1" type="RayCast3D" parent="Neck/Camera3D"]
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
 target_position = Vector3(5, 0, 0)
 
 [node name="ray2" type="RayCast3D" parent="Neck/Camera3D"]
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
 target_position = Vector3(5, 0, 0)
 
 [node name="ray3" type="RayCast3D" parent="Neck/Camera3D"]
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
 target_position = Vector3(5, 0, 0)
 
 [node name="ray4" type="RayCast3D" parent="Neck/Camera3D"]
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
 target_position = Vector3(5, 0, 0)
 
 [node name="ray5" type="RayCast3D" parent="Neck/Camera3D"]
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
 target_position = Vector3(5, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

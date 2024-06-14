@@ -1,15 +1,34 @@
-[gd_scene load_steps=3 format=3 uid="uid://do7drhs8570wx"]
+[gd_scene load_steps=6 format=3 uid="uid://do7drhs8570wx"]
 
 [ext_resource type="PackedScene" uid="uid://c6thmaqb6o5na" path="res://Assets/DungeonAssets/trap.glb" id="1_o5bg7"]
+[ext_resource type="Script" path="res://Scripts/Trap.gd" id="2_vighs"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_u45n6"]
-size = Vector3(0.8, 3, 0.8)
+size = Vector3(0.624936, 0.116009, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6q3aq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2w7dk"]
+albedo_color = Color(0.757931, 1.37173e-06, 9.62615e-08, 1)
+emission_enabled = true
+emission = Color(0.703691, 1.20327e-06, 2.88785e-07, 1)
 
 [node name="Trap" instance=ExtResource("1_o5bg7")]
 transform = Transform3D(2.5, 0, 0, 0, 2.5, 0, 0, 0, 2.5, 0, 0, 0)
+script = ExtResource("2_vighs")
 
 [node name="Area3D" type="Area3D" parent="." index="0"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0036881, 0.0522709, 0)
 shape = SubResource("BoxShape3D_u45n6")
+
+[node name="trap" parent="." index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_6q3aq")
+
+[node name="spikes" parent="trap" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_2w7dk")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

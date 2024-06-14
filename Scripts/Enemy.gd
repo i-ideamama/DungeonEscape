@@ -9,7 +9,11 @@ var upper_random_interval = 10
 var timer : Timer
 var direction : Vector3
 
+@onready var ray := $RayCast3D
 var ray_cast_mag = 5
+
+var chasing_player = false
+var player_pos
 
 func _ready():
 	create_random_timer()
@@ -25,10 +29,21 @@ func create_random_timer() -> void:
 	timer.start(wait_time)
 
 func _physics_process(delta) -> void:
-	if $RayCast3D.is_colliding():
-		random_timer_timeout()
+
+	if ray.is_colliding():
+		if(ray.get_collider().name == "Player"):
+			chasing_player = true
+		
+		if(ray.get_collider() is CSGCombiner3D):
+			# handle changing direction and stuff
+			random_timer_timeout()
 	
 	$RayCast3D.target_position = direction*ray_cast_mag
+	
+	var target_pos
+	if(chasing_player):
+		target_pos = get_parent().get_node("Player").position
+		direction = global_position.direction_to(target_pos)
 	
 	if direction:
 		velocity.x = direction.x * SPEED
@@ -41,3 +56,13 @@ func _physics_process(delta) -> void:
 func random_timer_timeout() -> void:
 	timer.wait_time = randi_range(lower_random_interval, upper_random_interval)
 	direction = Vector3(randf_range(-1.0,1.0),0,randf_range(-1.0,1.0))
+
+
+func _on_area_3d_body_entered(body):
+	if(body.name == "Player"):
+		player_pos = body.global_position
+		ray.target_position = player_pos
+		#if(ray.is_colliding()):
+		#	if(ray.get_collider().name == "Player"):
+		#chasing_player = true
+			
