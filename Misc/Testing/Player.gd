@@ -18,7 +18,7 @@ var mm
 
 var max_dots = 10000
 var last_dot_id = 0
-var dot_despawn_time = 5
+var dot_despawn_time = 120
 var delete_timers = []
 
 var blasters = [null, 'pea_shooter', 'spray_blaster']
@@ -113,11 +113,11 @@ func shoot_lidar_points():
 					if (col is CharacterBody3D):
 						if(col.name=="Enemy"):
 							col.make_visible()
-		else:
-			if(delete_timers[-1]==null):
-				get_parent().remove_child(mmi1)
-				setup_first_mmi()
-				last_dot_id=0
+			else:
+				if(delete_timers[-1]==null):
+					get_parent().remove_child(mmi1)
+					setup_first_mmi()
+					last_dot_id=0
 
 
 func set_blaster():
