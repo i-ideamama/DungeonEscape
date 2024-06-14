@@ -106,10 +106,12 @@ func shoot_lidar_points():
 				if ((col is CSGCombiner3D) or (col is StaticBody3D)):
 					instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal())
 					last_dot_id+=1
-					print(last_dot_id)
 				if (col is StaticBody3D):
 					if(col.get_parent().get_parent().name=="Trap"):
 						col.get_parent().get_parent().make_visible()
+				if (col is CharacterBody3D):
+					if(col.name=="Enemy"):
+						col.make_visible()
 		else:
 			if(delete_timers[-1]==null):
 				get_parent().remove_child(mmi1)

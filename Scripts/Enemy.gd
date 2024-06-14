@@ -16,6 +16,7 @@ var chasing_player = false
 var player_pos
 
 func _ready():
+	self.visible = false
 	create_random_timer()
 
 func create_random_timer() -> void:
@@ -31,8 +32,6 @@ func create_random_timer() -> void:
 func _physics_process(delta) -> void:
 
 	if ray.is_colliding():
-		if(ray.get_collider().name == "Player"):
-			chasing_player = true
 		
 		if(ray.get_collider() is CSGCombiner3D):
 			# handle changing direction and stuff
@@ -60,9 +59,17 @@ func random_timer_timeout() -> void:
 
 func _on_area_3d_body_entered(body):
 	if(body.name == "Player"):
+		if !$ChasePlayer.is_stopped():
+			$ChasePlayer.stop()
 		player_pos = body.global_position
 		ray.target_position = player_pos
-		#if(ray.is_colliding()):
-		#	if(ray.get_collider().name == "Player"):
-		#chasing_player = true
-			
+		chasing_player = true
+
+func _on_area_3d_body_exited(body):
+	$ChasePlayer.start()
+
+func _on_timer_timeout():
+	chasing_player = false
+
+func make_visible():
+	self.visible = true

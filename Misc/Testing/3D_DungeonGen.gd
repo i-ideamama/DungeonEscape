@@ -47,7 +47,7 @@ func _ready():
 	
 	enemy = enemy_scene.instantiate()
 	get_parent().add_child.call_deferred(enemy)
-	enemy.position = Vector3(room_pos_list[1].x ,-0.8,room_pos_list[1].z)
+	enemy.position = Vector3(room_pos_list[1].x ,-0.5,room_pos_list[1].z)
 	
 func do_the_gen():
 	get_room_positions()
@@ -157,15 +157,3 @@ func connect_rooms(room1, room2):
 	mesh2.material = mat
 	mesh2.flip_faces = true
 	add_child(mesh2)
-
-
-
-
-
-
-
-
-
-
-
-
