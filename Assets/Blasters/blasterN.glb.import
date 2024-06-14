@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/blasterN.glb-50dcb2d7156f651ea1261b18e7dcfbad
 
 [params]
 
-nodes/root_type="StaticBody3D"
+nodes/root_type="CharacterBody3D"
 nodes/root_name="BlasterN"
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
@@ -32,7 +32,6 @@ import_script/path=""
 _subresources={
 "nodes": {
 "PATH:blasterN": {
-"generate/physics": true,
 "mesh_instance/cast_shadow": 0,
 "physics/shape_type": 1
 }

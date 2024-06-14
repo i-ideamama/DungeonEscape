@@ -44,6 +44,11 @@ move_left={
 ]
 }
 
+[layer_names]
+
+3d_render/layer_1="World"
+3d_render/layer_2="Blaster"
+
 [physics]
 
 2d/default_gravity=0.0

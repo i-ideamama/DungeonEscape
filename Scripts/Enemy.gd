@@ -29,7 +29,6 @@ func _physics_process(delta) -> void:
 		random_timer_timeout()
 	
 	$RayCast3D.target_position = direction*ray_cast_mag
-	#$RayCast3D.poin
 	
 	if direction:
 		velocity.x = direction.x * SPEED
