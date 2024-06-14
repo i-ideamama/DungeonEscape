@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://rlkm6jmfrdow"]
+[gd_scene load_steps=10 format=3 uid="uid://rlkm6jmfrdow"]
 
 [ext_resource type="Script" path="res://Misc/Testing/Player.gd" id="1_cp0x0"]
 [ext_resource type="Script" path="res://Scripts/PlayerCamera.gd" id="2_himsr"]
@@ -10,6 +10,9 @@ points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607,
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_pmgmi"]
 dof_blur_near_enabled = true
+
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_a2s00"]
+size = Vector3(100, 5, 100)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ryf6d"]
 
@@ -30,7 +33,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.84787, 0)
 cull_mask = 1048573
 attributes = SubResource("CameraAttributesPractical_pmgmi")
 current = true
-far = 9999.0
+far = 500.0
 script = ExtResource("2_himsr")
 
 [node name="ray1" type="RayCast3D" parent="Neck/Camera3D"]
@@ -57,6 +60,10 @@ target_position = Vector3(5, 0, 0)
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
 enabled = false
 target_position = Vector3(5, 0, 0)
+
+[node name="OccluderInstance3D" type="OccluderInstance3D" parent="Neck/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -1.5, -20)
+occluder = SubResource("BoxOccluder3D_a2s00")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.30352, 0)

@@ -63,3 +63,7 @@ scan={
 [physics]
 
 2d/default_gravity=0.0
+
+[rendering]
+
+occlusion_culling/use_occlusion_culling=true

@@ -100,18 +100,19 @@ func shoot_lidar_points():
 		set_spray_blastet()
 	
 	for ray in $Neck/Camera3D.get_children():
-		var col = ray.get_collider()
-		if(last_dot_id<max_dots):
-			if(col!=null):
-				if ((col is CSGCombiner3D) or (col is StaticBody3D)):
-					instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal())
-					last_dot_id+=1
-				if (col is StaticBody3D):
-					if(col.get_parent().get_parent().name=="Trap"):
-						col.get_parent().get_parent().make_visible()
-				if (col is CharacterBody3D):
-					if(col.name=="Enemy"):
-						col.make_visible()
+		if ray is RayCast3D:
+			var col = ray.get_collider()
+			if(last_dot_id<max_dots):
+				if(col!=null):
+					if ((col is CSGCombiner3D) or (col is StaticBody3D)):
+						instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal())
+						last_dot_id+=1
+					if (col is StaticBody3D):
+						if(col.get_parent().get_parent().name=="Trap"):
+							col.get_parent().get_parent().make_visible()
+					if (col is CharacterBody3D):
+						if(col.name=="Enemy"):
+							col.make_visible()
 		else:
 			if(delete_timers[-1]==null):
 				get_parent().remove_child(mmi1)
@@ -126,7 +127,8 @@ func set_blaster():
 	if current_blaster == "pea_shooter":
 		$SubViewport/WeaponCamera/Blaster_PeaShooter.visible = true
 		for c in $Neck/Camera3D.get_children():
-			c.enabled = false
+			if c is RayCast3D:
+				c.enabled = false
 		ray1.enabled = true
 		ray1.target_position.x = 50
 	elif current_blaster == "spray_blaster":
@@ -134,13 +136,15 @@ func set_blaster():
 		set_spray_blastet()
 	else:
 		for c in $Neck/Camera3D.get_children():
-			c.enabled = false
+			if c is RayCast3D:
+				c.enabled = false
 
 func set_spray_blastet():
 	ray1.target_position.x = 5
 	for c in $Neck/Camera3D.get_children():
-		c.rotation = Vector3(0, deg_to_rad(randf_range(-95,-85)),deg_to_rad(randf_range(-5,5)))
-		c.enabled = true
+		if c is RayCast3D:
+			c.rotation = Vector3(0, deg_to_rad(randf_range(-95,-85)),deg_to_rad(randf_range(-5,5)))
+			c.enabled = true
 
 
 func _physics_process(delta) -> void:
