@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+@onready var lidar_mmi_scene = preload("res://Scenes/lidar_mmi.tscn")
 
 const SPEED = 10.0
 const JUMP_VELOCITY = 4.5
@@ -11,11 +12,14 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var ray1 := $Neck/Camera3D/ray1
 @onready var weapon_cam := $SubViewport/WeaponCamera
 
-var mmi
+var mmi1
+var mmi2
 var mm
 
 var max_dots = 10000
 var last_dot_id = 0
+var dot_despawn_time = 5
+var delete_timers = []
 
 var blasters = [null, 'pea_shooter', 'spray_blaster']
 var current_blaster_index = 0
@@ -24,8 +28,14 @@ var current_blaster = blasters[current_blaster_index]
 var rng = RandomNumberGenerator.new()
 
 func _ready():
-	mmi = get_parent().get_node('MultiMeshInstance3D')
-	mm = mmi.multimesh
+	for i in range(max_dots):
+		delete_timers.append(null)
+	setup_first_mmi()
+	
+func setup_first_mmi():
+	mmi1 = lidar_mmi_scene.instantiate()
+	get_parent().add_child(mmi1)
+	mm = mmi1.multimesh
 	mm.instance_count = max_dots
 	mm.visible_instance_count = max_dots
 
@@ -41,6 +51,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			camera.rotate_x(-event.relative.y*0.01)
 			camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-55), deg_to_rad(90))
 
+func delete_dot():
+	for i in range(delete_timers.size()):
+		if(delete_timers[i]!=null):
+			delete_timers[i] = null
+			mm.set_instance_transform(i, Transform3D.IDENTITY.scaled(Vector3.ZERO))
+			break
+
 func instance_dot(i, pos, normal):
 	var transform = Transform3D()
 	transform = transform.translated(pos)
@@ -54,6 +71,13 @@ func instance_dot(i, pos, normal):
 		other_line = Vector3((-normal.z/normal.x),0,1)
 		transform.basis = Basis().looking_at(other_line, normal)
 	mm.set_instance_transform(i, transform)
+	delete_timers[i] = Timer.new()
+	add_child(delete_timers[i])
+	delete_timers[i].one_shot = true
+	delete_timers[i].wait_time = dot_despawn_time
+	delete_timers[i].start()
+	delete_timers[i].timeout.connect(delete_dot)
+
 
 func _process(_delta):
 	# for debug stuff
@@ -77,13 +101,20 @@ func shoot_lidar_points():
 	
 	for ray in $Neck/Camera3D.get_children():
 		var col = ray.get_collider()
-		if((col!=null) and (last_dot_id<max_dots)):
-			if ((col is CSGCombiner3D) or (col is StaticBody3D)):
-				instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal())
-				last_dot_id+=1
-			if (col is StaticBody3D):
-				if(col.get_parent().get_parent().name=="Trap"):
-					col.get_parent().get_parent().make_visible()
+		if(last_dot_id<max_dots):
+			if(col!=null):
+				if ((col is CSGCombiner3D) or (col is StaticBody3D)):
+					instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal())
+					last_dot_id+=1
+					print(last_dot_id)
+				if (col is StaticBody3D):
+					if(col.get_parent().get_parent().name=="Trap"):
+						col.get_parent().get_parent().make_visible()
+		else:
+			if(delete_timers[-1]==null):
+				get_parent().remove_child(mmi1)
+				setup_first_mmi()
+				last_dot_id=0
 
 
 func set_blaster():

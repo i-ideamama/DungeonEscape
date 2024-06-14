@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://b444vb6ck5ivb"]
+
+[ext_resource type="Texture2D" uid="uid://8lnn35b64m0d" path="res://Assets/dot.png" id="1_dbekx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7aqe6"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_dbekx")
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4kap6"]
+material = SubResource("StandardMaterial3D_7aqe6")
+size = Vector2(0.05, 0.05)
+center_offset = Vector3(0, 0.001, 0)
+
+[sub_resource type="MultiMesh" id="MultiMesh_5rcmy"]
+transform_format = 1
+use_colors = true
+use_custom_data = true
+mesh = SubResource("PlaneMesh_4kap6")
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D"]
+multimesh = SubResource("MultiMesh_5rcmy")
