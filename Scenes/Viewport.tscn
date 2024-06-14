@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3eu6p34f42qv"]
+
+[ext_resource type="PackedScene" uid="uid://boew2tgfdmhyr" path="res://Scenes/Blaster_PeaShooter.tscn" id="1_m26c0"]
+[ext_resource type="PackedScene" uid="uid://d4e0tm77juivn" path="res://Scenes/Blaster_SprayBlaster.tscn" id="2_1qy55"]
+
+[node name="SubViewport" type="SubViewport"]
+transparent_bg = true
+size = Vector2i(1280, 720)
+
+[node name="WeaponCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+cull_mask = 2
+
+[node name="Blaster_PeaShooter" parent="WeaponCamera" instance=ExtResource("1_m26c0")]
+transform = Transform3D(-1.18177, 0.0361845, -0.205212, 0, 1.18177, 0.208378, 0.208378, 0.205212, -1.16382, 0.549, -0.557078, -0.776)
+visible = false
+
+[node name="Blaster_SprayBlaster" parent="WeaponCamera" instance=ExtResource("2_1qy55")]
+transform = Transform3D(-0.984808, 0.0301537, -0.17101, 0, 0.984808, 0.173648, 0.173648, 0.17101, -0.969846, 0.549, -0.420538, -0.776)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="WeaponCamera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.551751, 0, 1.13116)
+layers = 2

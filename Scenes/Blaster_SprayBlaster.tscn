@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4e0tm77juivn"]
+
+[ext_resource type="PackedScene" uid="uid://dv4bsq5pl8nfl" path="res://Assets/Blasters/blasterO.glb" id="1_b76om"]
+
+[node name="Blaster_SprayBlaster" instance=ExtResource("1_b76om")]
+
+[node name="blasterO" parent="." index="0"]
+layers = 2

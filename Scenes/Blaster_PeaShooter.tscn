@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c675yt1vlsmu5" path="res://Assets/Blasters/blasterN.glb" id="1_geg3q"]
 
-[node name="BlasterN" instance=ExtResource("1_geg3q")]
+[node name="Blaster_PeaShooter" instance=ExtResource("1_geg3q")]
 
 [node name="blasterN" parent="." index="0"]
 layers = 2

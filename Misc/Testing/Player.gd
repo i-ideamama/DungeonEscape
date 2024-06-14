@@ -9,14 +9,20 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var neck := $Neck
 @onready var camera := $Neck/Camera3D
-@onready var ray := $Neck/Camera3D/RayCast3D
-#@onready var mmi = $MultiMeshInstance3D
+@onready var ray1 := $Neck/Camera3D/ray1
+@onready var weapon_cam := $SubViewport/WeaponCamera
 
 var mmi
 var mm
 
 var max_dots = 10000
 var last_dot_id = 0
+
+var blasters = [null, 'pea_shooter', 'spray_blaster']
+var current_blaster_index = 0
+var current_blaster = blasters[current_blaster_index]
+
+var rng = RandomNumberGenerator.new()
 
 func _ready():
 	mmi = get_parent().get_node('MultiMeshInstance3D')
@@ -51,14 +57,44 @@ func instance_dot(i, pos, normal):
 	mm.set_instance_transform(i, transform)
 
 func _process(_delta):
+	# for debug stuff
 	if Input.is_action_just_pressed("ui_text_backspace"):
 		$Neck/Camera3D.apply_shake()
+	if Input.is_action_just_pressed("change_blaster"):
+		if((current_blaster_index+1)==blasters.size()):
+			current_blaster_index = 0
+		else:
+			current_blaster_index+=1
+		current_blaster = blasters[current_blaster_index]
+		set_blaster()
+
+func set_blaster():
+	for c in $SubViewport/WeaponCamera.get_children():
+		if c is CharacterBody3D:
+			c.visible = false
+	if current_blaster == "pea_shooter":
+		$SubViewport/WeaponCamera/Blaster_PeaShooter.visible = true
+		for c in $Neck/Camera3D.get_children():
+			c.enabled = false
+		ray1.enabled = true
+		ray1.target_position.x = 50
+	elif current_blaster == "spray_blaster":
+		$SubViewport/WeaponCamera/Blaster_SprayBlaster.visible = true
+		ray1.target_position.x = 5
+		for c in $Neck/Camera3D.get_children():
+			c.rotation = Vector3(0, deg_to_rad(randf_range(-95,-85)),deg_to_rad(randf_range(-5,5)))
+			c.enabled = true
+	else:
+		for c in $Neck/Camera3D.get_children():
+			c.enabled = false
+
 
 func _physics_process(delta) -> void:
-	
-	if((ray.get_collider()!=null) and (last_dot_id<max_dots) and ("dungeon" in ray.get_collider().name)):
-		instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal())
-		last_dot_id+=1
+	for ray in $Neck/Camera3D.get_children():
+		if((ray.get_collider()!=null) and (last_dot_id<max_dots)):
+			if (ray.get_collider() is CSGCombiner3D):
+				instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal())
+				last_dot_id+=1
 
 	
 	# Add the gravity.
@@ -69,8 +105,6 @@ func _physics_process(delta) -> void:
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir = Input.get_vector("move_left", "move_right", "move_front", "move_back")
 	var direction = (neck.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:

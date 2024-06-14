@@ -13,8 +13,8 @@ dest_files=["res://.godot/imported/blasterO.glb-0873c9d5cfb8b5ac816d2f9504268418
 
 [params]
 
-nodes/root_type=""
-nodes/root_name=""
+nodes/root_type="CharacterBody3D"
+nodes/root_name="SprayBlaster"
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 meshes/ensure_tangents=true
