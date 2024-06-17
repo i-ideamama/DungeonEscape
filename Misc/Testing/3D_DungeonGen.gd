@@ -157,5 +157,3 @@ func connect_rooms(room1, room2):
 	mesh2.material = mat
 	mesh2.flip_faces = true
 	add_child(mesh2)
-
-
