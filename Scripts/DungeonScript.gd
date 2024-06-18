@@ -21,7 +21,7 @@ func setgenerate(_val:bool) -> void:
 	inst_obstacles()
 
 @onready var player_scene = preload("res://Scenes/Player.tscn")
-@onready var player_TEST_scene = preload("res://Scenes/Player_TEST.tscn")
+@onready var player_FINAL_scene = preload("res://Scenes/Player_final.tscn")
 var player
 @onready var enemy_scene = preload("res://Scenes/enemy.tscn")
 var enemy
@@ -38,18 +38,19 @@ var goal
 
 var obstacles = ["enemy", "spikes", "chasm"]
 
+
 func setclear(_val:bool) -> void:
 	for c in get_children():
 		c.queue_free()
 		room_pos_list.clear()
 
 func _ready():
+	mat.albedo_color = Color(0,0,0,1)
 	randomize()
 	do_the_gen()
-	player = player_TEST_scene.instantiate()
+	player = player_FINAL_scene.instantiate()
 	get_parent().add_child.call_deferred(player)
 	player.position = Vector3(room_pos_list[-2].x ,-1,room_pos_list[-2].z)
-	print("player pos = ",Vector3(room_pos_list[room_pos_list.size()-1].x ,-1,room_pos_list[room_pos_list.size()-1].z))
 	inst_obstacles()
 	
 	
@@ -86,6 +87,7 @@ func place_chasm(poz):
 	var chasm_height = 100
 	var chasm_side = 3
 	chasm.mesh = BoxMesh.new()
+	chasm.material = mat
 	chasm.name = "chasm"
 	chasm.scale = Vector3(chasm_side, chasm_height, chasm_side)
 	chasm.flip_faces = true

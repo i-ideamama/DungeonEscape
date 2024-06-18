@@ -6,6 +6,7 @@
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
+vertex_color_use_as_albedo = true
 albedo_texture = ExtResource("1_dbekx")
 emission_enabled = true
 emission = Color(1, 1, 1, 1)

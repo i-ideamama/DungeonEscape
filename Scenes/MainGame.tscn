@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ku6l02xddhxe"]
+[gd_scene load_steps=10 format=3 uid="uid://ku6l02xddhxe"]
 
 [ext_resource type="Script" path="res://Scripts/Main.gd" id="1_oisn4"]
 [ext_resource type="AudioStream" uid="uid://dyp5h3enb0ptm" path="res://Assets/Music/ambience.ogg" id="2_ohccf"]
@@ -6,30 +6,42 @@
 [ext_resource type="Script" path="res://Scripts/DungeonScript.gd" id="4_etpsg"]
 [ext_resource type="PackedScene" uid="uid://b444vb6ck5ivb" path="res://Scenes/lidar_mmi.tscn" id="5_wrnes"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6jpgu"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_i1dex"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_lt72o"]
+sky_material = SubResource("ProceduralSkyMaterial_i1dex")
+
+[sub_resource type="Environment" id="Environment_d080l"]
+background_mode = 2
+sky = SubResource("Sky_lt72o")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gg6ke"]
+albedo_color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_oisn4")
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_d080l")
+
 [node name="Ambience" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ohccf")
+autoplay = true
 
 [node name="Drums" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_ahi73")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
-shadow_enabled = true
-sky_mode = 2
 
 [node name="dungeon" type="CSGCombiner3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.310425, 0.138832, 0.10714)
 use_collision = true
 collision_mask = 3
 script = ExtResource("4_etpsg")
-mat = SubResource("StandardMaterial3D_6jpgu")
+mat = SubResource("StandardMaterial3D_gg6ke")
 
 [node name="MultiMeshInstance3D" parent="." instance=ExtResource("5_wrnes")]
 
-[connection signal="body_entered" from="BottomOfChasm" to="BottomOfChasm" method="_on_body_entered"]
 [connection signal="body_entered" from="Goal" to="Goal" method="_on_body_entered"]

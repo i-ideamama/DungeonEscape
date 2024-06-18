@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 
-const SPEED = 20.0
+const SPEED = 18.0
 const JUMP_VELOCITY = 4.5
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -61,7 +61,7 @@ func delete_dot():
 			mm.set_instance_transform(i, Transform3D.IDENTITY.scaled(Vector3.ZERO))
 			break
 
-func instance_dot(i, pos, normal):
+func instance_dot(i, pos, normal, col):
 	var transform = Transform3D()
 	transform = transform.translated(pos)
 	var other_line = Vector3(0,1,(-normal.y/normal.z))
@@ -74,6 +74,7 @@ func instance_dot(i, pos, normal):
 		other_line = Vector3((-normal.z/normal.x),0,1)
 		transform.basis = Basis().looking_at(other_line, normal)
 	mm.set_instance_transform(i, transform)
+	mm.set_instance_color(i, Color(1,1,1))
 	delete_timers[i] = Timer.new()
 	add_child(delete_timers[i])
 	delete_timers[i].one_shot = true
@@ -118,7 +119,16 @@ func shoot_lidar_points():
 			if(last_dot_id<max_dots):
 				if(col!=null):
 					if ((col is CSGCombiner3D) or (col is StaticBody3D)):
-						instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal())
+						if current_blaster == "fov_blaster":
+							var fov_ray_len=15
+							var origin = ray.global_transform.origin
+							var collision_point = ray.get_collision_point()
+							var distance = origin.distance_to(collision_point)
+							var grad = distance/fov_ray_len
+							var color = Color(1,1,0)
+							instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal(), color)
+						else:
+							instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal(), Color(1,1,1))
 						last_dot_id+=1
 					if (col is StaticBody3D):
 						if("Trap" in col.get_parent().get_parent().name):
@@ -134,6 +144,9 @@ func shoot_lidar_points():
 
 
 func set_blaster():
+	for c in $Neck/Camera3D.get_children():
+		if c is RayCast3D:
+			c.enabled = false
 	for c in $SubViewport/WeaponCamera.get_children():
 		if c is CharacterBody3D:
 			c.visible = false
@@ -142,11 +155,8 @@ func set_blaster():
 			f.enabled = false
 	if current_blaster == "pea_shooter":
 		$SubViewport/WeaponCamera/Blaster_PeaShooter.visible = true
-		for c in $Neck/Camera3D.get_children():
-			if c is RayCast3D:
-				c.enabled = false
 		ray1.enabled = true
-		ray1.target_position.x = 50
+		ray1.target_position.x = 250
 	elif current_blaster == "spray_blaster":
 		$SubViewport/WeaponCamera/Blaster_SprayBlaster.visible = true
 		set_spray_blastet()
@@ -159,7 +169,7 @@ func set_blaster():
 				c.enabled = false
 
 func set_fov_blaster():
-	var cam_fov = 75
+	var cam_fov = $Neck/Camera3D.fov
 	for c in $Neck/Camera3D.get_children():
 		if "fov" in c.name:
 			c.enabled = true
@@ -168,7 +178,7 @@ func set_fov_blaster():
 func set_spray_blastet():
 	ray1.target_position.x = 5
 	for c in $Neck/Camera3D.get_children():
-		if c is RayCast3D:
+		if ((c is RayCast3D) and ("ray" in c.name)):
 			c.rotation = Vector3(0, deg_to_rad(randf_range(-95,-85)),deg_to_rad(randf_range(-5,5)))
 			c.enabled = true
 

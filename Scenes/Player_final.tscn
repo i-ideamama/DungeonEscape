@@ -1,10 +1,10 @@
 [gd_scene load_steps=11 format=3 uid="uid://4rxpt8f5oswd"]
 
-[ext_resource type="Script" path="res://Misc/Testing/Player_TEST.gd" id="1_iouhk"]
-[ext_resource type="Script" path="res://Scripts/PlayerCamera.gd" id="2_vpmcu"]
-[ext_resource type="PackedScene" uid="uid://boew2tgfdmhyr" path="res://Scenes/Blaster_PeaShooter.tscn" id="3_qohle"]
-[ext_resource type="PackedScene" uid="uid://d4e0tm77juivn" path="res://Scenes/Blaster_SprayBlaster.tscn" id="4_tdjk7"]
-[ext_resource type="PackedScene" uid="uid://bjo1d0myohsdx" path="res://Scenes/Blaster_FOV.tscn" id="5_vkfbi"]
+[ext_resource type="Script" path="res://Scripts/Player_final.gd" id="1_kuyf1"]
+[ext_resource type="Script" path="res://Scripts/PlayerCamera.gd" id="2_kbu2r"]
+[ext_resource type="PackedScene" uid="uid://boew2tgfdmhyr" path="res://Scenes/Blaster_PeaShooter.tscn" id="3_wwni0"]
+[ext_resource type="PackedScene" uid="uid://d4e0tm77juivn" path="res://Scenes/Blaster_SprayBlaster.tscn" id="4_i2lpe"]
+[ext_resource type="PackedScene" uid="uid://bjo1d0myohsdx" path="res://Scenes/Blaster_FOV.tscn" id="5_kahpm"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_x82gv"]
 points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607, 0.498884, 0.169713, 0.559144, 0.464172, 0.231051, -0.803591, 0.320455, 0.40741, 0.651043, -0.243523, -0.482789, 0.594843, 0.0822132, -0.362868, -0.682312, 0.289697, 0.469044, -0.654529, -0.0662713, -0.127444, 0.842701, -0.338103, -0.393435, -0.683942, -0.244717, 0.438255, 0.623309, 0.200849, 0.0841477, 0.977454, 0.114795, -0.0682023, -0.976458, -0.12927, 0.20055, -0.563129, -0.451454, -0.185527, 0.595453, -0.453475, -0.273363, 0.592268, 0.407754, -0.00693649, -0.476823, 0.49966, 0.375821, -0.588614, 0.316955, 0.111579, 0.563059, -0.481177, -0.41725, 0.527866, -0.270497, -0.484546, -0.596972, -0.0665097, -0.279747, 0.908561, 0.0533361, -0.250197, -0.880712, 0.205319, 0.263647, -0.902771, -0.127394, 0.293368, 0.871526, -0.157196, 0.373412, -0.526319, -0.328246, 0.499663, 0.476641, -0.00688856, 0.0531056, 0.875001, 0.324703, -0.154543, -0.590854, 0.465879, -0.0972799, -0.782358, -0.398188, -0.387649, -0.498171, 0.31565, -0.30068, -0.587995, -0.388901)
@@ -21,7 +21,7 @@ size = Vector3(100, 25, 100)
 viewport_path = NodePath("SubViewport")
 
 [node name="Player" type="CharacterBody3D"]
-script = ExtResource("1_iouhk")
+script = ExtResource("1_kuyf1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.30352, 0)
@@ -35,12 +35,12 @@ cull_mask = 1048573
 attributes = SubResource("CameraAttributesPractical_pmgmi")
 current = true
 far = 500.0
-script = ExtResource("2_vpmcu")
+script = ExtResource("2_kbu2r")
 
 [node name="ray1" type="RayCast3D" parent="Neck/Camera3D"]
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
 enabled = false
-target_position = Vector3(5, 0, 0)
+target_position = Vector3(50, 0, 0)
 
 [node name="fov" type="RayCast3D" parent="Neck/Camera3D"]
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
@@ -117,25 +117,75 @@ transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.1
 enabled = false
 target_position = Vector3(15, 0, 0)
 
+[node name="fov16" type="RayCast3D" parent="Neck/Camera3D"]
+transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
+target_position = Vector3(15, 0, 0)
+
+[node name="fov17" type="RayCast3D" parent="Neck/Camera3D"]
+transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
+target_position = Vector3(15, 0, 0)
+
+[node name="fov18" type="RayCast3D" parent="Neck/Camera3D"]
+transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
+target_position = Vector3(15, 0, 0)
+
+[node name="fov19" type="RayCast3D" parent="Neck/Camera3D"]
+transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
+target_position = Vector3(15, 0, 0)
+
+[node name="fov20" type="RayCast3D" parent="Neck/Camera3D"]
+transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
+target_position = Vector3(15, 0, 0)
+
+[node name="fov21" type="RayCast3D" parent="Neck/Camera3D"]
+transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
+target_position = Vector3(15, 0, 0)
+
+[node name="fov22" type="RayCast3D" parent="Neck/Camera3D"]
+transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
+target_position = Vector3(15, 0, 0)
+
+[node name="fov23" type="RayCast3D" parent="Neck/Camera3D"]
+transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
+target_position = Vector3(15, 0, 0)
+
+[node name="fov24" type="RayCast3D" parent="Neck/Camera3D"]
+transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
+target_position = Vector3(15, 0, 0)
+
+[node name="fov25" type="RayCast3D" parent="Neck/Camera3D"]
+transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
+enabled = false
+target_position = Vector3(15, 0, 0)
+
 [node name="ray2" type="RayCast3D" parent="Neck/Camera3D"]
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
 enabled = false
-target_position = Vector3(5, 0, 0)
+target_position = Vector3(50, 0, 0)
 
 [node name="ray3" type="RayCast3D" parent="Neck/Camera3D"]
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
 enabled = false
-target_position = Vector3(5, 0, 0)
+target_position = Vector3(50, 0, 0)
 
 [node name="ray4" type="RayCast3D" parent="Neck/Camera3D"]
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
 enabled = false
-target_position = Vector3(5, 0, 0)
+target_position = Vector3(50, 0, 0)
 
 [node name="ray5" type="RayCast3D" parent="Neck/Camera3D"]
 transform = Transform3D(4.37114e-08, 0, 1, 0, -1, 0, -1, 0, 4.37114e-08, 0, -0.18424, 0)
 enabled = false
-target_position = Vector3(5, 0, 0)
+target_position = Vector3(50, 0, 0)
 
 [node name="OccluderInstance3D" type="OccluderInstance3D" parent="Neck/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, -1.5, -20)
@@ -160,15 +210,15 @@ size = Vector2i(1280, 720)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 cull_mask = 2
 
-[node name="Blaster_PeaShooter" parent="SubViewport/WeaponCamera" instance=ExtResource("3_qohle")]
+[node name="Blaster_PeaShooter" parent="SubViewport/WeaponCamera" instance=ExtResource("3_wwni0")]
 transform = Transform3D(-1.18177, 0.0361845, -0.205212, 0, 1.18177, 0.208378, 0.208378, 0.205212, -1.16382, 0.549, -0.557078, -0.776)
 visible = false
 
-[node name="Blaster_SprayBlaster" parent="SubViewport/WeaponCamera" instance=ExtResource("4_tdjk7")]
+[node name="Blaster_SprayBlaster" parent="SubViewport/WeaponCamera" instance=ExtResource("4_i2lpe")]
 transform = Transform3D(-0.984808, 0.0301537, -0.17101, 0, 0.984808, 0.173648, 0.173648, 0.17101, -0.969846, 0.549, -0.420538, -0.773929)
 visible = false
 
-[node name="Blaster_FOV" parent="SubViewport/WeaponCamera" instance=ExtResource("5_vkfbi")]
+[node name="Blaster_FOV" parent="SubViewport/WeaponCamera" instance=ExtResource("5_kahpm")]
 transform = Transform3D(-0.984808, 0.0301537, -0.17101, 0, 0.984808, 0.173648, 0.173648, 0.17101, -0.969846, 0.549, -0.421, -0.774)
 visible = false
 

@@ -1,7 +1,6 @@
 extends CharacterBody3D
 
-const SPEED = 14.5
-const JUMP_VELOCITY = 4.5
+const SPEED = 10.0
 
 var lower_random_interval = 5
 var upper_random_interval = 10
@@ -69,6 +68,7 @@ func _on_area_3d_body_entered(body):
 func _on_area_3d_body_exited(body):
 	$ChasePlayer.autostart =  true
 	$ChasePlayer.start()
+	#get_tree().current_scene.add_child($ChasePlayer)
 	
 
 func _on_timer_timeout():
