@@ -18,15 +18,17 @@ var mesh_resolution = 8
 func setgenerate(_val:bool) -> void:
 	randomize()
 	do_the_gen()
-	inst_traps()
+	inst_obstacles()
 	print("player pos = ",Vector3(room_pos_list[-1].x ,-1,room_pos_list[-1].z))
 
 @onready var player_scene = preload("res://Scenes/Player.tscn")
 var player
 @onready var enemy_scene = preload("res://Scenes/enemy.tscn")
 var enemy
+var enemy_count=0
 @onready var trap_scene = preload("res://Scenes/Trap.tscn")
 var trap
+var trap_count=0
 @onready var bottom_of_chasm_scene = preload("res://Scenes/BottomOfChasm.tscn")
 var bottom_of_chasm
 @onready var goal_scene = preload("res://Scenes/Goal.tscn")
@@ -34,6 +36,8 @@ var goal
 
 @export var clear : bool = false : set = setclear
 
+#var obstacles = ["enemy", "spikes", "chasm"]
+var obstacles = ["chasm"]
 
 func setclear(_val:bool) -> void:
 	for c in get_children():
@@ -47,11 +51,9 @@ func _ready():
 	get_parent().add_child.call_deferred(player)
 	player.position = Vector3(room_pos_list[-2].x ,-1,room_pos_list[-2].z)
 	print("player pos = ",Vector3(room_pos_list[room_pos_list.size()-1].x ,-1,room_pos_list[room_pos_list.size()-1].z))
-	inst_traps()
+	inst_obstacles()
 	
-	enemy = enemy_scene.instantiate()
-	get_parent().add_child.call_deferred(enemy)
-	enemy.position = Vector3(room_pos_list[1].x ,-0.8,room_pos_list[1].z)
+	
 	
 	goal = goal_scene.instantiate()
 	get_parent().add_child.call_deferred(goal)
@@ -62,13 +64,25 @@ func do_the_gen():
 	place_rooms()
 	get_rooms()
 
-func inst_traps():
-	# place spike traps
-	trap = trap_scene.instantiate()
-	get_parent().add_child.call_deferred(trap)
-	trap.position = Vector3(room_pos_list[0].x ,-1.5,room_pos_list[0].z)
+func inst_obstacles():
+	for i in range(room_pos_list.size()-3):
+		var poz = room_pos_list[i]
+		obstacles.shuffle()
+		if(obstacles[0]=="enemy"):
+			place_enemy(poz)
+		elif(obstacles[0]=="spikes"):
+			place_spikes(poz)
+		elif(obstacles[0]=="chasm"):
+			place_chasm(poz)
 
-	# place chasms
+func place_enemy(poz):
+	enemy = enemy_scene.instantiate()
+	enemy.name = str("Enemy",enemy_count)
+	enemy_count+=1
+	get_parent().add_child.call_deferred(enemy)
+	enemy.position = Vector3(poz.x ,-0.8,poz.z)
+
+func place_chasm(poz):
 	var chasm = CSGMesh3D.new()
 	var chasm_height = 100
 	var chasm_side = 3
@@ -79,11 +93,18 @@ func inst_traps():
 	chasm.mesh.subdivide_width = chasm.scale.x/mesh_resolution
 	chasm.mesh.subdivide_height= chasm.scale.y/mesh_resolution
 	chasm.mesh.subdivide_depth = chasm.scale.z/mesh_resolution
-	chasm.position = Vector3(room_pos_list[1].x ,(-chasm_height/2)+1,room_pos_list[1].z)
+	chasm.position = Vector3(poz.x ,(-chasm_height/2)+1, poz.z)
 	add_child(chasm)
 	bottom_of_chasm = bottom_of_chasm_scene.instantiate()
 	get_parent().add_child.call_deferred(bottom_of_chasm)
 	bottom_of_chasm.position = Vector3(chasm.position.x,-chasm_height+2,chasm.position.z)
+
+func place_spikes(poz):
+	trap = trap_scene.instantiate()
+	trap.name = str("Trap",trap_count)
+	trap_count+=1
+	get_parent().add_child.call_deferred(trap)
+	trap.position = Vector3(poz.x ,-1.5, poz.z)
 
 func get_room_positions():
 	room_count = randi_range(min_rooms, max_rooms)

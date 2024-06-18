@@ -119,10 +119,10 @@ func shoot_lidar_points():
 						instance_dot(last_dot_id, ray.get_collision_point(), ray.get_collision_normal())
 						last_dot_id+=1
 					if (col is StaticBody3D):
-						if(col.get_parent().get_parent().name=="Trap"):
+						if("Trap" in col.get_parent().get_parent().name):
 							col.get_parent().get_parent().make_visible()
 					if (col is CharacterBody3D):
-						if(col.name=="Enemy"):
+						if("Enemy" in col.name):
 							col.make_visible()
 			else:
 				if(delete_timers[-1]==null):
