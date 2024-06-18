@@ -86,9 +86,6 @@ func shake_camera():
 	$Neck/Camera3D.apply_shake()
 
 func _process(_delta):
-	# for debug stuff
-	if Input.is_action_just_pressed("ui_text_backspace"):
-		shake_camera()
 	if Input.is_action_pressed("scan"):
 		shoot_lidar_points()
 	if Input.is_action_just_pressed("checkpoint"):
