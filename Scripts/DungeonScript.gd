@@ -19,7 +19,6 @@ func setgenerate(_val:bool) -> void:
 	randomize()
 	do_the_gen()
 	inst_obstacles()
-	print("player pos = ",Vector3(room_pos_list[-1].x ,-1,room_pos_list[-1].z))
 
 @onready var player_scene = preload("res://Scenes/Player.tscn")
 var player
@@ -36,8 +35,7 @@ var goal
 
 @export var clear : bool = false : set = setclear
 
-#var obstacles = ["enemy", "spikes", "chasm"]
-var obstacles = ["chasm"]
+var obstacles = ["enemy", "spikes", "chasm"]
 
 func setclear(_val:bool) -> void:
 	for c in get_children():
@@ -77,8 +75,8 @@ func inst_obstacles():
 
 func place_enemy(poz):
 	enemy = enemy_scene.instantiate()
-	enemy.name = str("Enemy",enemy_count)
 	enemy_count+=1
+	enemy.name = str("Enemy",enemy_count)
 	get_parent().add_child.call_deferred(enemy)
 	enemy.position = Vector3(poz.x ,-0.8,poz.z)
 
@@ -101,8 +99,8 @@ func place_chasm(poz):
 
 func place_spikes(poz):
 	trap = trap_scene.instantiate()
-	trap.name = str("Trap",trap_count)
 	trap_count+=1
+	trap.name = str("Trap",trap_count)
 	get_parent().add_child.call_deferred(trap)
 	trap.position = Vector3(poz.x ,-1.5, poz.z)
 
@@ -121,7 +119,6 @@ func get_room_positions():
 	
 	for i in range(room_pos_list.size()):
 		room_pos_list_cpy.append(room_pos_list[i])
-		print(room_pos_list[i])
 
 
 func place_rooms():
