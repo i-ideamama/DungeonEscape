@@ -67,7 +67,9 @@ func _on_area_3d_body_entered(body):
 		get_parent().start_drums()
 
 func _on_area_3d_body_exited(body):
+	$ChasePlayer.autostart =  true
 	$ChasePlayer.start()
+	
 
 func _on_timer_timeout():
 	chasing_player = false
