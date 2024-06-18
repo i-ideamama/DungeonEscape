@@ -21,6 +21,7 @@ func setgenerate(_val:bool) -> void:
 	inst_obstacles()
 
 @onready var player_scene = preload("res://Scenes/Player.tscn")
+@onready var player_TEST_scene = preload("res://Scenes/Player_TEST.tscn")
 var player
 @onready var enemy_scene = preload("res://Scenes/enemy.tscn")
 var enemy
@@ -45,7 +46,7 @@ func setclear(_val:bool) -> void:
 func _ready():
 	randomize()
 	do_the_gen()
-	player = player_scene.instantiate()
+	player = player_TEST_scene.instantiate()
 	get_parent().add_child.call_deferred(player)
 	player.position = Vector3(room_pos_list[-2].x ,-1,room_pos_list[-2].z)
 	print("player pos = ",Vector3(room_pos_list[room_pos_list.size()-1].x ,-1,room_pos_list[room_pos_list.size()-1].z))
