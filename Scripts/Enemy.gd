@@ -64,12 +64,19 @@ func _on_area_3d_body_entered(body):
 		player_pos = body.global_position
 		ray.target_position = player_pos
 		chasing_player = true
+		get_parent().start_drums()
 
 func _on_area_3d_body_exited(body):
 	$ChasePlayer.start()
 
 func _on_timer_timeout():
 	chasing_player = false
+	get_parent().stop_drums()
 
 func make_visible():
 	self.visible = true
+
+
+func _on_kill_box_body_entered(body):
+	if(body.name=="Player"):
+		self.get_parent().player_lose()

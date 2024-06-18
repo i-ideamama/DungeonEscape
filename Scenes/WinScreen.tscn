@@ -1,9 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://bh3rsrikwwhyx"]
+[gd_scene load_steps=9 format=3 uid="uid://brniules8tnod"]
 
-[ext_resource type="PackedScene" uid="uid://d4e0tm77juivn" path="res://Scenes/Blaster_SprayBlaster.tscn" id="1_281lm"]
-[ext_resource type="Script" path="res://Scripts/HomeScreen.gd" id="1_xpbio"]
-[ext_resource type="FontFile" uid="uid://c7nwhlkl6ti6v" path="res://Assets/Fonts/bloodlust3d.ttf" id="2_ge75a"]
-[ext_resource type="PackedScene" uid="uid://boew2tgfdmhyr" path="res://Scenes/Blaster_PeaShooter.tscn" id="2_o6b55"]
+[ext_resource type="Script" path="res://Scripts/WinScreen.gd" id="1_vutgw"]
+[ext_resource type="PackedScene" uid="uid://d4e0tm77juivn" path="res://Scenes/Blaster_SprayBlaster.tscn" id="2_ot40f"]
+[ext_resource type="PackedScene" uid="uid://boew2tgfdmhyr" path="res://Scenes/Blaster_PeaShooter.tscn" id="3_ua0dg"]
+[ext_resource type="FontFile" uid="uid://c7nwhlkl6ti6v" path="res://Assets/Fonts/bloodlust3d.ttf" id="4_2qkpe"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3wlod"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -29,16 +29,8 @@ adjustment_saturation = 2.5
 [sub_resource type="ViewportTexture" id="ViewportTexture_ax87u"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lh7k7"]
-albedo_color = Color(1, 0, 0, 1)
-emission_enabled = true
-emission = Color(1, 0, 0, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_mwe8d"]
-material = SubResource("StandardMaterial3D_lh7k7")
-
 [node name="HomeScreen" type="Node3D"]
-script = ExtResource("1_xpbio")
+script = ExtResource("1_vutgw")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_qioej")
@@ -47,10 +39,10 @@ environment = SubResource("Environment_qioej")
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Blaster_SprayBlaster" parent="." instance=ExtResource("1_281lm")]
+[node name="Blaster_SprayBlaster" parent="." instance=ExtResource("2_ot40f")]
 transform = Transform3D(-1.31134e-07, 0, 3, 0, 3, 0, -3, 0, -1.31134e-07, -3, 0, 0)
 
-[node name="Blaster_PeaShooter" parent="." instance=ExtResource("2_o6b55")]
+[node name="Blaster_PeaShooter" parent="." instance=ExtResource("3_ua0dg")]
 transform = Transform3D(-1.31134e-07, 0, -3, 0, 3, 0, 3, 0, -1.31134e-07, 3, 0, 0)
 
 [node name="SubViewport" type="SubViewport" parent="."]
@@ -71,17 +63,17 @@ offset_bottom = 40.0
 
 [node name="Title" type="RichTextLabel" parent="Control"]
 layout_mode = 0
-offset_left = 160.0
+offset_left = 288.0
 offset_top = 448.0
-offset_right = 1088.0
+offset_right = 992.0
 offset_bottom = 672.0
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_fonts/normal_font = ExtResource("2_ge75a")
+theme_override_fonts/normal_font = ExtResource("4_2qkpe")
 theme_override_font_sizes/normal_font_size = 200
-text = "DUNGEON ESCAPE"
+text = "YOU ESCAPED"
 scroll_active = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Control"]
@@ -89,15 +81,6 @@ layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 64.0
 alignment = 1
-
-[node name="Play" type="Button" parent="Control/HBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
-text = "  PLAY  "
-flat = true
 
 [node name="Quit" type="Button" parent="Control/HBoxContainer"]
 layout_mode = 2
@@ -108,8 +91,4 @@ theme_override_font_sizes/font_size = 50
 text = "  QUIT  "
 flat = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_mwe8d")
-
-[connection signal="pressed" from="Control/HBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Control/HBoxContainer/Quit" to="." method="_on_quit_pressed"]

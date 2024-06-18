@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://3i4ssfpfad1n"]
+
+[ext_resource type="Script" path="res://Scripts/Goal.gd" id="1_5o1ny"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1f37u"]
+size = Vector3(1, 2.5, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tdn8w"]
+albedo_color = Color(0.511064, 0.861488, 7.70092e-07, 1)
+emission_enabled = true
+emission = Color(0.509804, 0.862745, 0, 1)
+emission_energy_multiplier = 0.5
+
+[sub_resource type="TorusMesh" id="TorusMesh_oghkf"]
+material = SubResource("StandardMaterial3D_tdn8w")
+
+[node name="Goal" type="Area3D"]
+script = ExtResource("1_5o1ny")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_1f37u")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("TorusMesh_oghkf")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

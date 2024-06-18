@@ -1,6 +1,5 @@
 extends CharacterBody3D
 
-@onready var lidar_mmi_scene = preload("res://Scenes/lidar_mmi.tscn")
 
 const SPEED = 10.0
 const JUMP_VELOCITY = 4.5
@@ -12,13 +11,17 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var ray1 := $Neck/Camera3D/ray1
 @onready var weapon_cam := $SubViewport/WeaponCamera
 
+@onready var lidar_mmi_scene = preload("res://Scenes/lidar_mmi.tscn")
+@onready var checkpoint_scene = preload("res://Scenes/Checkpoint.tscn")
+var checkpoint
+var checkpoint_placed = false
+
 var mmi1
-var mmi2
 var mm
 
-var max_dots = 10000
+var max_dots = 100000
 var last_dot_id = 0
-var dot_despawn_time = 5
+var dot_despawn_time = 120
 var delete_timers = []
 
 var blasters = [null, 'pea_shooter', 'spray_blaster']
@@ -31,7 +34,7 @@ func _ready():
 	for i in range(max_dots):
 		delete_timers.append(null)
 	setup_first_mmi()
-	
+
 func setup_first_mmi():
 	mmi1 = lidar_mmi_scene.instantiate()
 	get_parent().add_child(mmi1)
@@ -44,7 +47,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	elif event.is_action_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		
+
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
 			neck.rotate_y(-event.relative.x*0.01)
@@ -78,15 +81,17 @@ func instance_dot(i, pos, normal):
 	delete_timers[i].start()
 	delete_timers[i].timeout.connect(delete_dot)
 
+func shake_camera():
+	$Neck/Camera3D.apply_shake()
 
 func _process(_delta):
 	# for debug stuff
 	if Input.is_action_just_pressed("ui_text_backspace"):
-		$Neck/Camera3D.apply_shake()
-	
+		shake_camera()
 	if Input.is_action_pressed("scan"):
 		shoot_lidar_points()
-		
+	if Input.is_action_just_pressed("checkpoint"):
+		place_checkpoint()
 	if Input.is_action_just_pressed("change_blaster"):
 		if((current_blaster_index+1)==blasters.size()):
 			current_blaster_index = 0
@@ -95,6 +100,12 @@ func _process(_delta):
 		current_blaster = blasters[current_blaster_index]
 		set_blaster()
 
+func place_checkpoint():
+	checkpoint = checkpoint_scene.instantiate()
+	get_parent().add_child(checkpoint)
+	checkpoint.position = Vector3(position.x, position.y+1, position.z)
+	checkpoint_placed = true
+	
 func shoot_lidar_points():
 	if current_blaster == "spray_blaster":
 		set_spray_blastet()
@@ -113,11 +124,11 @@ func shoot_lidar_points():
 					if (col is CharacterBody3D):
 						if(col.name=="Enemy"):
 							col.make_visible()
-		else:
-			if(delete_timers[-1]==null):
-				get_parent().remove_child(mmi1)
-				setup_first_mmi()
-				last_dot_id=0
+			else:
+				if(delete_timers[-1]==null):
+					get_parent().remove_child(mmi1)
+					setup_first_mmi()
+					last_dot_id=0
 
 
 func set_blaster():
