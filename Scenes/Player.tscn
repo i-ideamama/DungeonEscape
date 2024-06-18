@@ -12,7 +12,7 @@ points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607,
 dof_blur_near_enabled = true
 
 [sub_resource type="BoxOccluder3D" id="BoxOccluder3D_a2s00"]
-size = Vector3(100, 5, 100)
+size = Vector3(100, 25, 100)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ryf6d"]
 

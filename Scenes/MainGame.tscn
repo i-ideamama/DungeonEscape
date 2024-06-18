@@ -13,7 +13,6 @@ script = ExtResource("1_oisn4")
 
 [node name="Ambience" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ohccf")
-autoplay = true
 
 [node name="Drums" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_ahi73")
@@ -33,3 +32,4 @@ mat = SubResource("StandardMaterial3D_6jpgu")
 [node name="MultiMeshInstance3D" parent="." instance=ExtResource("5_wrnes")]
 
 [connection signal="body_entered" from="BottomOfChasm" to="BottomOfChasm" method="_on_body_entered"]
+[connection signal="body_entered" from="Goal" to="Goal" method="_on_body_entered"]

@@ -2,13 +2,13 @@
 extends CSGCombiner3D
 
 var room_count
-var min_rooms = 2
-var max_rooms = 3
+var min_rooms = 4
+var max_rooms = 5
 var min_room_size = 8
 var max_room_size = 15
 var room_pos_list = []
 var room_pos_list_cpy = []
-var pos_range = Vector2(-50,50)
+var pos_range = Vector2(-75,75)
 var mesh_resolution = 8
 
 
@@ -18,6 +18,8 @@ var mesh_resolution = 8
 func setgenerate(_val:bool) -> void:
 	randomize()
 	do_the_gen()
+	inst_traps()
+	print("player pos = ",Vector3(room_pos_list[-1].x ,-1,room_pos_list[-1].z))
 
 @onready var player_scene = preload("res://Scenes/Player.tscn")
 var player
@@ -29,9 +31,10 @@ var trap
 var bottom_of_chasm
 @onready var goal_scene = preload("res://Scenes/Goal.tscn")
 var goal
-var furthest_room
 
 @export var clear : bool = false : set = setclear
+
+
 func setclear(_val:bool) -> void:
 	for c in get_children():
 		c.queue_free()
@@ -42,18 +45,18 @@ func _ready():
 	do_the_gen()
 	player = player_scene.instantiate()
 	get_parent().add_child.call_deferred(player)
-	player.position = Vector3(room_pos_list[0].x ,-1,room_pos_list[0].z)
+	player.position = Vector3(room_pos_list[-2].x ,-1,room_pos_list[-2].z)
+	print("player pos = ",Vector3(room_pos_list[room_pos_list.size()-1].x ,-1,room_pos_list[room_pos_list.size()-1].z))
 	inst_traps()
-	
-	# set goal
-	#goal = goal_scene.instantiate()
-	#get_parent().add_child.call_deferred(goal)
-	#goal.position = Vector3(furthest_room.x ,-0.5,furthest_room.z)
 	
 	enemy = enemy_scene.instantiate()
 	get_parent().add_child.call_deferred(enemy)
-	enemy.position = Vector3(room_pos_list[1].x ,-0.5,room_pos_list[1].z)
-
+	enemy.position = Vector3(room_pos_list[1].x ,-0.8,room_pos_list[1].z)
+	
+	goal = goal_scene.instantiate()
+	get_parent().add_child.call_deferred(goal)
+	goal.position = Vector3(room_pos_list[-1].x ,-1,room_pos_list[-1].z)
+	
 func do_the_gen():
 	get_room_positions()
 	place_rooms()
@@ -64,7 +67,7 @@ func inst_traps():
 	trap = trap_scene.instantiate()
 	get_parent().add_child.call_deferred(trap)
 	trap.position = Vector3(room_pos_list[0].x ,-1.5,room_pos_list[0].z)
-	
+
 	# place chasms
 	var chasm = CSGMesh3D.new()
 	var chasm_height = 100
@@ -86,17 +89,18 @@ func get_room_positions():
 	room_count = randi_range(min_rooms, max_rooms)
 	var room_pos
 	
-	room_pos_list.append(Vector3(pos_range.x, 0, pos_range.y))
-	
 	for i in range(room_count):
 		room_pos = Vector3(randi_range(pos_range.x,pos_range.y),0,randi_range(pos_range.x,pos_range.y))
 		while(!can_place(room_pos)):
 			room_pos = Vector3(randi_range(pos_range.x,pos_range.y),0,randi_range(pos_range.x,pos_range.y))
 		room_pos_list.append(room_pos)
+	room_pos_list.append(Vector3(-pos_range.x, 0, pos_range.y))
+	
+	room_pos_list.append(Vector3(pos_range.x, 0, -pos_range.y))
 	
 	for i in range(room_pos_list.size()):
 		room_pos_list_cpy.append(room_pos_list[i])
-
+		print(room_pos_list[i])
 
 
 func place_rooms():
@@ -126,11 +130,15 @@ func can_place(pos):
 func get_rooms():
 	var room1
 	var room2
-	while (room_pos_list_cpy.size() > 2):
+	
+	connect_rooms(room_pos_list[-1], room_pos_list[randi_range(0, room_pos_list_cpy.size()-3)])
+	room_pos_list_cpy.erase(room_pos_list[-1])
+	
+	while room_pos_list_cpy.size() > 2:
 		room1 = room_pos_list_cpy[randi_range(0, room_pos_list_cpy.size()-1)]
 		room2 = room_pos_list_cpy[randi_range(0, room_pos_list_cpy.size()-1)]
 		
-		while ((room1==room2) or ((room1==room_pos_list[0])and(room2==furthest_room)) or ((room2==room_pos_list[0])and(room1==furthest_room))):
+		while room1==room2:
 			room2 = room_pos_list_cpy[randi_range(0, room_pos_list_cpy.size()-1)]
 			
 		connect_rooms(room1, room2)
@@ -140,11 +148,11 @@ func get_rooms():
 		room1 = room_pos_list_cpy[0]
 		room2 = room_pos_list_cpy[1]
 		connect_rooms(room1, room2)
-	
+
 func connect_rooms(room1, room2):
 	var dir1 = room2.x - room1.x
 	var dir2 = room2.z - room1.z
-	
+
 	var mesh1 = CSGMesh3D.new()
 	mesh1.mesh = BoxMesh.new()
 	mesh1.scale = Vector3(abs(dir1)+3, 3, 3)
@@ -155,7 +163,7 @@ func connect_rooms(room1, room2):
 	mesh1.material = mat
 	mesh1.flip_faces = true
 	add_child(mesh1)
-	
+
 	var mesh2 = CSGMesh3D.new()
 	mesh2.mesh = BoxMesh.new()
 	mesh2.scale = Vector3(3, 3, abs(dir2)+3)
@@ -166,5 +174,3 @@ func connect_rooms(room1, room2):
 	mesh2.material = mat
 	mesh2.flip_faces = true
 	add_child(mesh2)
-
-

@@ -19,9 +19,6 @@ func player_lose():
 		get_node("Player").checkpoint_placed=false
 	else:
 		get_node("Player").shake_camera()
-		await(get_tree().create_timer(1.0).timeout)
+		await(get_tree().create_timer(1.3).timeout)
 		win = false
 		get_tree().change_scene_to_file("res://Scenes/LoseScreen.tscn")
-		
-func p():
-	print("a")

@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-const SPEED = 4.8
+const SPEED = 14.5
 const JUMP_VELOCITY = 4.5
 
 var lower_random_interval = 5
