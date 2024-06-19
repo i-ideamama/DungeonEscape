@@ -7,3 +7,4 @@ Controls:
 - Use Spacebar to jump over obstacles
 - Press E to switch between blasters
 - Press Q or Left Mouse Button to shoot LIDAR points
+- Press C to spawn the checkpoint
